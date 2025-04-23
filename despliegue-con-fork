@@ -1,0 +1,86 @@
+# Despliegue de la Aplicación PokeDex en Microsoft Azure
+
+Este documento describe cómo se realizó el despliegue de la aplicación **PokeDex** utilizando **Azure for Students**, partiendo desde un _fork_ del repositorio original del profesor. El objetivo fue publicar la aplicación en la nube para que fuera accesible públicamente como parte del proyecto del curso.
+
+---
+
+## Requisitos Previos
+
+Antes de comenzar con el despliegue, se contó con lo siguiente:
+
+- Cuenta activa de **Azure for Students**.
+- Repositorio original del profesor:  
+  👉 [https://github.com/rcuello/ac4dem1a/tree/master/sistemas-distribuidos/poke-dex-lab](https://github.com/rcuello/ac4dem1a/tree/master/sistemas-distribuidos/poke-dex-lab)
+- Repositorio propio en GitHub, creado a partir de un **fork** del anterior, llamado `pokedexf`.
+
+---
+
+## 1. Preparación del Proyecto
+
+### 📁 Estructura del Proyecto
+
+Se hizo un **fork** del repositorio original del profesor y se clonó localmente. Luego, se verificó que los archivos estuvieran correctamente organizados en la raíz del proyecto (`index.html`, `main.js`, `styles.css`, etc.).
+
+> 📌 Como la app está basada en HTML, CSS y JavaScript (sin backend), se utilizó el servicio **Static Web Apps** de Azure.
+
+---
+
+## 2. Acceso al Portal de Azure
+
+Se ingresó al portal de Azure desde el siguiente enlace:  
+👉 [https://portal.azure.com](https://portal.azure.com)
+
+---
+
+## 3. Creación del Recurso: Static Web App
+
+### 🔧 Pasos:
+
+1. En el buscador del portal de Azure, se seleccionó el recurso **Static Web Apps**.
+2. Se hizo clic en **Crear**.
+3. Se completaron los datos requeridos:
+   - **Nombre del recurso**: `pokedexf-static-app`
+   - **Región**: La más cercana geográficamente.
+   - **Plan de tarifa**: Free (Gratuito)
+   - **Origen del código**: GitHub
+   - **Repositorio y rama**: Se seleccionó el repositorio `pokedexf` y rama `main`.
+
+---
+
+## 4. Configuración del flujo de despliegue
+
+Azure generó automáticamente un **workflow de GitHub Actions**, que se añadió al repositorio dentro de `.github/workflows`.
+
+> 📌 Este flujo permite que la app se despliegue automáticamente cada vez que se suben cambios a la rama configurada.
+
+---
+
+## 5. Verificación del Despliegue
+
+Luego de unos minutos, Azure completó el despliegue. Se accedió a la URL proporcionada:
+
+👉 `https://pokedexf-static-app.azurestaticapps.net` *(ejemplo, depende del nombre exacto que se haya usado)*
+
+Se comprobó que la aplicación carga correctamente y sin errores.
+
+---
+
+## 6. Escaneo de Seguridad
+
+Se realizó un análisis usando:  
+👉 [https://securityheaders.com](https://securityheaders.com)
+
+### Resultado:
+- Se obtuvo una calificación de seguridad de: `_____` *(completar según tu caso)*
+- Se revisaron los encabezados faltantes y se consideraron mejoras.
+
+---
+
+## 7. Mejoras de Seguridad (si aplica)
+
+Se añadieron encabezados de seguridad al archivo `index.html`, como por ejemplo:
+
+```html
+<meta http-equiv="Content-Security-Policy" content="default-src 'self';">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
